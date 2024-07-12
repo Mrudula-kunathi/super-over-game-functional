@@ -3,10 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Super Over</title>
+    <title>Cricket Match Simulator</title>
     <link rel="stylesheet" href="style.css" />
   </head>
-
   <body>
     <img
       id="logo"
@@ -14,8 +13,8 @@
     />
     <section>
       <div class="score" id="team1">
-        <h1>IND</h1>
-        <div id="team1-superover" class="balls">
+        <h1>Team 1</h1>
+        <div id="team1-over" class="balls">
           <div class="ball"></div>
           <div class="ball"></div>
           <div class="ball"></div>
@@ -24,14 +23,14 @@
           <div class="ball"></div>
         </div>
         <div class="scoreboard">
-          <span id="score-team1">0</span>
+          <span id="runs-team1">0</span>
           <span>/</span>
-          <span id="wickets-team1">0</span>
+          <span id="falls-team1">0</span>
         </div>
       </div>
       <div class="score" id="team2">
-        <h1>PAK</h1>
-        <div id="team2-superover" class="balls">
+        <h1>Team 2</h1>
+        <div id="team2-over" class="balls">
           <div class="ball"></div>
           <div class="ball"></div>
           <div class="ball"></div>
@@ -40,25 +39,24 @@
           <div class="ball"></div>
         </div>
         <div class="scoreboard">
-          <span id="score-team2">0</span>
+          <span id="runs-team2">0</span>
           <span>/</span>
-          <span id="wickets-team2">0</span>
+          <span id="falls-team2">0</span>
         </div>
       </div>
     </section>
     <section id="buttons">
       <img
         class="button"
-        id="strike"
+        id="hit"
         src="https://s3.ap-south-1.amazonaws.com/kalvi-education.github.io/front-end-web-development/so-strike-button.png"
       />
       <img
         class="button"
-        id="reset"
+        id="new-game"
         src="https://s3.ap-south-1.amazonaws.com/kalvi-education.github.io/front-end-web-development/so-reset-button.png"
       />
     </section>
     <script src="app.js"></script>
-      js"></script>
   </body>
 </html>
