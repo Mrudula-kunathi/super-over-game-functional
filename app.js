@@ -1,89 +1,72 @@
-const strikeButton = document.getElementById("strike");
-const resetButton = document.getElementById("reset");
-const team1ScoreDisplay = document.getElementById("score-team1");
-const team1WicketsDisplay = document.getElementById("wickets-team1");
-const team2ScoreDisplay = document.getElementById("score-team2");
-const team2WicketsDisplay = document.getElementById("wickets-team2");
+const hitBallBtn = document.querySelector("#hit");
+const newGameBtn = document.querySelector("#new-game");
+const team1RunsEl = document.querySelector("#runs-team1");
+const team1FallsEl = document.querySelector("#falls-team1");
+const team2RunsEl = document.querySelector("#runs-team2");
+const team2FallsEl = document.querySelector("#falls-team2");
 
-// Initializing variables
-let team1Score = 0;
-let team1Wickets = 0;
-let team2Score = 0;
-let team2Wickets = 0;
-let team1Balls = 0;
-let team2Balls = 0;
-let turn = 1;
+let team1Runs = 0, team1Falls = 0, team2Runs = 0, team2Falls = 0;
+let team1Deliveries = 0, team2Deliveries = 0;
+let currentInnings = 1;
 
-// Possible outcomes of a ball
-const possibleOutcomes = [0, 1, 2, 3, 4, 6, "W"];
+const possibleResults = [0, 1, 2, 3, 4, 6, "Out"];
 
-// Function to handle end of game
-function endGame() {
-  let message = "";
-  if (team1Score > team2Score) {
-    message = "INDIA wins";
-  } else if (team2Score > team1Score) {
-    message = "PAKISTAN wins";
+function concludeMatch() {
+  let resultMessage = "";
+  if (team1Runs > team2Runs) {
+    resultMessage = "Team 1 emerges victorious!";
+  } else if (team2Runs > team1Runs) {
+    resultMessage = "Team 2 claims the win!";
   } else {
-    message = "It's another super over!";
+    resultMessage = "It's a tie! Prepare for another intense over!";
   }
-  alert(message);
+  window.alert(resultMessage);
 }
 
-// Function to update score displays
-function updateScore() {
-  team1ScoreDisplay.textContent = team1Score;
-  team1WicketsDisplay.textContent = team1Wickets;
-  team2ScoreDisplay.textContent = team2Score;
-  team2WicketsDisplay.textContent = team2Wickets;
+function refreshScoreboard() {
+  team1RunsEl.textContent = team1Runs;
+  team1FallsEl.textContent = team1Falls;
+  team2RunsEl.textContent = team2Runs;
+  team2FallsEl.textContent = team2Falls;
 }
 
-// Reset button click event
-resetButton.addEventListener("click", () => {
-  window.location.reload();
+newGameBtn.addEventListener("click", () => {
+  location.reload();
 });
 
-
-// Strike button click event
-strikeButton.onclick = () => {
-  const randomOutcome =
-    possibleOutcomes[Math.floor(Math.random() * possibleOutcomes.length)];
-
-  if (turn === 2) {
-    team2Balls++;
-    const team2BallDisplay = document.querySelector(
-      `#team2-superover div:nth-child(${team2Balls})`
-    );
-    team2BallDisplay.textContent = randomOutcome;
+hitBallBtn.addEventListener("click", () => {
+  const outcome = possibleResults[Math.floor(Math.random() * possibleResults.length)];
+  
+  if (currentInnings === 2) {
+    team2Deliveries++;
+    document.querySelector(`#team2-over div:nth-child(${team2Deliveries})`).textContent = outcome;
     
-    if (randomOutcome === "W") {
-      team2Wickets++;
+    if (outcome === "Out") {
+      team2Falls++;
     } else {
-      team2Score += randomOutcome;
+      team2Runs += outcome;
     }
-
-    if (team2Balls === 6 || team2Wickets === 2 || team2Score > team1Score) {
-      turn = 3;
-      endGame();
+    
+    if (team2Deliveries === 6 || team2Falls === 2 || team2Runs > team1Runs) {
+      currentInnings = 3;
+      concludeMatch();
     }
   }
-
-  if (turn === 1) {
-    team1Balls++;
-    const team1BallDisplay = document.querySelector(
-      `#team1-superover div:nth-child(${team1Balls})`
-    );
-    team1BallDisplay.textContent = randomOutcome;
-
-    if (randomOutcome === "W") {
-      team1Wickets++;
+  
+  if (currentInnings === 1) {
+    team1Deliveries++;
+    document.querySelector(`#team1-over div:nth-child(${team1Deliveries})`).textContent = outcome;
+    
+    if (outcome === "Out") {
+      team1Falls++;
     } else {
-      team1Score += randomOutcome;
+      team1Runs += outcome;
     }
-
-    if (team1Balls === 6 || team1Wickets === 2) {
-      turn = 2;
+    
+    if (team1Deliveries === 6 || team1Falls === 2) {
+      currentInnings = 2;
     }
   }
-  updateScore();
-};
+  
+  refreshScoreboard();
+});
